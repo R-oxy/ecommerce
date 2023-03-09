@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html" xmlns="http://www.w3.org/1999/html"
+      xmlns="http://www.w3.org/1999/html">
+{% extends 'store/main.html' %}
+{% load static %}
+{% block content %}
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE-edge">
+    <title>ViewItem</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1" />
+
+</head>
+<body>
+
+        <!-- HTML for the view page -->
+    <div class="product-description">
+      <h2>Product Description</h2>
+      <p id="description">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque auctor, augue at consectetur auctor, justo lorem ultricies lacus, vel egestas velit tellus vel diam. Sed vel nulla quis elit sollicitudin mollis.</p>
+    </div>
+
+    <!-- Button to toggle the edit form -->
+    <button id="edit-button">Edit Description</button>
+
+    <!-- Edit form that is hidden by default -->
+    {% if error %}
+        <p>{{ error }}</p>
+    {% endif %}
+    <form method="POST" id="edit-form" style="display: none;">
+      {% csrf_token %}
+      <textarea id="edit-description"></textarea>
+      <button type="submit">Save</button>
+      <button id="cancel-button">Cancel</button>
+    </form>
+
+    <!-- JavaScript to toggle the edit form and handle form submission -->
+    <script>
+      // Get a reference to the edit button and form
+      const editButton = document.getElementById('edit-button');
+      const editForm = document.getElementById('edit-form');
+      const editDescription = document.getElementById('edit-description');
+      const description = document.getElementById('description');
+
+      // When the edit button is clicked, show the edit form and hide the description
+      editButton.addEventListener('click', () => {
+        editForm.style.display = 'block';
+        description.style.display = 'none';
+      });
+
+      // When the cancel button is clicked, hide the edit form and show the description
+      document.getElementById('cancel-button').addEventListener('click', () => {
+        editForm.style.display = 'none';
+        description.style.display = 'block';
+      });
+
+      // When the form is submitted, update the description and hide the form
+      editForm.addEventListener('submit', (event) => {
+          event.preventDefault();
+          const user = {
+            group: 'admin',
+            isAdmin: function() {
+                return this.group === 'admin';
+            }
+          }
+          if (user.isAdmin()) {
+            description.innerHTML = editDescription.value;
+          } else {
+                // The user is not an admin, do not allow them to edit the description
+            alert('You do not have permission to edit the description');
+          }
+
+          if (user.isAdmin()) {
+            // Send an AJAX request to update the product description in the database
+            const xhr = new XMLHttpRequest();
+            xhr.open('POST', '/update-description/');
+            xhr.setRequestHeader('Content-Type', 'application/json');
+            xhr.onload = () => {
+              if (xhr.status === 200) {
+                // Update the product description on the page
+                description.innerHTML = editDescription.value;
+              } else {
+                alert('Failed to update product description');
+              }
+            };
+            xhr.send(JSON.stringify({
+              productId: 'productId',
+              description: editDescription.value
+            }));
+          }
+
+          editForm.style.display = 'none';
+          description.style.display = 'block';
+      });
+
+    </script>
+
+
+</body>
+</html>
+{% endblock content %}
