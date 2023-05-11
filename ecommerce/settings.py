@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-qe$56qf%0&mwyb5o9$s1f5@n@+(h8#!x9k#huzflgf6&^^s(d3
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['arons.pythonanywhere.com']
 
 
 # Application definition
@@ -91,12 +91,23 @@ WSGI_APPLICATION = 'ecommerce.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
+#     }
+# }
+
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'Arons$MyEcommerceDB',
+        'USER': 'Arons',
+        'PASSWORD': 'Teflon2580',
+        'HOST': 'Arons.mysql.pythonanywhere-services.com',
+        'PORT': '3306',
+        }
     }
-}
 
 
 # Password validation
@@ -135,7 +146,7 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-STATIC_ROOT = ('path/to/static_root')
+STATIC_ROOT = '/home/Arons/ecommerce/static'
 
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static')
