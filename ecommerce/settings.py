@@ -101,10 +101,10 @@ WSGI_APPLICATION = 'ecommerce.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'Arons$MyEcommerceDB',
-        'USER': 'Arons',
-        'PASSWORD': 'Teflon2580',
-        'HOST': 'Arons.mysql.pythonanywhere-services.com',
+        'NAME': '',
+        'USER': '',
+        'PASSWORD': '',
+        'HOST': '',
         'PORT': '3306',
         }
     }
