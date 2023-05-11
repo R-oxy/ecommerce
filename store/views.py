@@ -13,8 +13,6 @@ from .models import *
 from .utils import cookieCart, cartData, guestOrder
 from .decorators import unauthenticated_user, allowed_users, admin_only
 
-#create your views here:
-
 
 @unauthenticated_user
 def loginPage(request):
